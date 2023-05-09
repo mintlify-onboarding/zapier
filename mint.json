@@ -1,0 +1,45 @@
+{
+    "name": "Zapier",
+    "logo": {
+      "light": "/logo/light.png",
+      "dark": "/logo/dark.png"
+    },
+    "favicon": "/favicon.ico",
+    "colors": {
+      "primary": "#FF4F00",
+      "light": "#FE6C2A",
+      "dark": "#D44200"
+    },
+    "topbarCtaButton": {
+      "name": "Sign Up",
+      "url": "https://zapier.com/sign-up"
+    },
+    "topbarLinks": [
+      {
+        "name": "Login",
+        "url": "https://zapier.com/app/login"
+      }
+    ],
+    "anchors": [
+      {
+        "name": "Contact Sales",
+        "icon": "phone",
+        "url": "https://zapier.com/l/contact-sales?demo_source=cs_nav_header_/"
+      }
+    ],
+    "navigation": [
+      {
+        "group": "Introduction",
+        "pages": ["introduction"]
+      },
+      {
+        "group": "Introduction",
+        "pages": ["introduction"]
+      }
+    ],
+    "footerSocials":
+      {
+          "twitter": "https://twitter.com/zapier?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor",
+          "linkedin": "https://www.linkedin.com/company/zapier/"
+      }
+  }
