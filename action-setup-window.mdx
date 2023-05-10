@@ -1,0 +1,15 @@
+---
+title: "Action Setup Window"
+---
+
+Users set up their actions inside a window popup, that looks and feels similar to an OAuth window. The setup URL is the same for all your users: `https://nla.zapier.com/<PROVIDER>/start/`
+
+You can check the validity of an access/refresh token by checking against the `api/v1/check/` endpoint to determine if you should present the `oauth/authorize/` or `<PROVIDER>/start/` url.
+
+You'd typically include a button or link somewhere inside your product to open the setup window.
+
+```bash
+var nla = window.open('https://nla.zapier.com/<PROVIDER>/start', 'nla', 'width=650,height=700');
+```
+
+_Note: the setup window is optimized for 650px width, 700px height_

@@ -1,7 +1,7 @@
 ---
 title: "Hi there!"
 sidebarTitle: "Introduction"
-description: "Welcome to the **Zapier Natural Language Actions API docs**. You are currently viewing the **root** API.
+description: "Welcome to the **Zapier Natural Language Actions API docs**. You are currently viewing the **root** API."
 ---
 
 The endpoints of this root API are static and useful for reference. To see the live playground with dynamic API endpoints that match up to your own actions, [log in first](https://zapier.com/app/login?utm_source=partner&utm_medium=nla_embed&utm_campaign=zapier&next=/oauth/authorize/%3Fclient_id%3D8PGzMkSm24Wy9KBV3ZT4PHVz1IhfdJaGhTNkEkva%26redirect_uri%3Dhttps%3A//nla.zapier.com/complete/zapier/%26response_type%3Dcode%26scope%3Dinternal%2Bprofile%26utm_source%3Dpartner%26utm_medium%3Dnla_embed%26utm_campaign%3Dzapier), then go here:
@@ -15,11 +15,11 @@ Zapier is an integration platform with over 5,000+ apps and 50,000+ actions. You
 For example, you can use the NLA API to:
 
 <CardGroup cols={2}>
-  <Card title="Send messages in Slack" icon="slack" href="/components/card-group">
+  <Card title="Send messages in Slack" icon="slack" href="https://zapier.com/apps/slack/integrations">
   </Card>
-  <Card title="Add a row to a Google Sheet" icon="google-drive" href="/components/card-group">
+  <Card title="Add a row to a Google Sheet" icon="google-drive" href="https://zapier.com/apps/google-sheets/integrations">
   </Card>
-  <Card title="Draft a new email in Gmail" icon="google" href="/components/card-group">
+  <Card title="Draft a new email in Gmail" icon="google" href="https://zapier.com/apps/gmail/integrations">
   </Card>
   <Card title="... and thousands more, with one universal natural language API" icon="webhook">
   </Card>
@@ -46,3 +46,46 @@ NLA contains a decade of experience with API shenanigans, so you don't have to. 
   APIs sometimes have 100 options. Zapier's platform data helps us make NLA simpler for users out of the box
   </Card>
 </CardGroup>
+
+### Two Usage Modes
+NLA handles all the underlying API auth and translation from natural language --> underlying API call --> return simplified output. The key idea is you (the developer), or your users, expose a set of actions via an oauth-like setup window, which you can then query and execute via a REST API. NLA offers both API Key and OAuth for signing NLA API requests.
+
+<CardGroup cols={2}>
+  <Card title="Server-side only (API Key)" icon="server">
+    for quickly getting started, testing, and production scenarios where your app will only use actions exposed in the developer's Zapier account (and will use the developer's connected accounts on Zapier.com)
+  </Card>
+  <Card title="User-facing (Oauth)" icon="lock">
+    for production scenarios where you are deploying an end-user facing application and your app needs access to end-user's exposed actions and connected accounts on Zapier.com
+  </Card>
+</CardGroup>
+
+### Why Natural Language?
+
+Simply, it makes the API easier to use for both developers and users (and also for [large language models](https://en.wikipedia.org/wiki/Wikipedia:Large_language_models)!
+
+We designed NLA to expose the power of Zapier's platform without passing along the complexity. A few design choices:
+
+- There is a [user-facing component](https://cdn.zappy.app/83728f684b91c0afe7d435445fe4ac90.png) to NLA, exposed via a popup window, users set up and enable basic actions which "expose" them to you, the `provider`.
+- The default action setup for users is minimal and fast. [All required fields are guessed](https://cdn.zappy.app/20afede9be56bf4e30d31986bc5325f8.png). This guessing is accomplished using an lanuage model on the NLA side.
+- Users can [choose to override any guessed field](https://cdn.zappy.app/e07f6eabfe7512e9decf01cba0c9e847.png) with a fixed value or choice, increasing trust to use the natural language interface.
+- Custom fields (ex. spreadsheet columns) can also be [dynamically guessed at action run time](https://cdn.zappy.app/9061499b4b973200fc345f695b33e3c7.png), or fixed by the user.
+
+Using the API is then simple:
+
+```bash 
+curl -v \
+    -d '{"instructions": "Add Bryan Helmig at Zapier to my NLA test sheet, oh and he loves guitars!"}' \
+    -H "Authorization: Bearer <ACCESS_TOKEN>" \
+    -H "Content-Type: application/json" \
+    'https://nla.zapier.com/api/v1/dynamic/exposed/<ACTION_ID>/execute/'
+```
+
+Or mix in some fixed values:
+
+```bash
+curl -v \
+    -d '{"instructions": "Send a short poem about automation to slack", "channel": "#fun-zapier"}' \
+    -H "Authorization: Bearer <ACCESS_TOKEN>" \
+    -H "Content-Type: application/json" \
+    'https://nla.zapier.com/api/v1/dynamic/exposed/<ACTION_ID>/execute/'
+```

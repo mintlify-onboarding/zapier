@@ -1,0 +1,82 @@
+---
+title: "Auth"
+---
+
+## For Quickly Exploring
+
+It's best to take advantage of session auth built into the OpenAPI docs.
+
+1. [Log in](https://nla.zapier.com/login/zapier/)
+2. [Create and enable an action](https://nla.zapier.com/demo/) using our `demo` provider
+
+then all your enabled ("exposed") actions will be available at the bottom of the the [dynamic API](https://nla.zapier.com/api/v1/dynamic/docs).
+
+## For Testing or Production (Server-side only mode)
+
+For development purposes, or using NLA in a server-side only use case, you can get started quickly using the provider `dev`. You can generate an `API key` using this provider and make authenticated requests.
+
+Please follow these steps:
+
+1.Go to the [Dev App provider](https://nla.zapier.com/dev/provider/debug/) debug page.
+2. Look for "User" -> "Information" -> "API Key". If a key does not exist, follow the instructions to generate one.
+3. Use this key in the header `x-api-key` to make authenticated requests.
+
+Test that the API key is working:
+
+```bash
+curl -v \
+    -H "Content-Type: application/json" \
+    -H "x-api-key: <API_KEY>" \
+    'https://nla.zapier.com/api/v1/check/'
+```
+
+## For Production (User-facing mode)
+The API is authenticated via [standard OAuth v2](https://oauth.net/2/). Submit [this form](https://nla.zapier.app/nla-oauth-credentials) to get access and receive a `client_id`, `client_secret`, and your `provider` name (ex. 'acme'). You'll also need to share with us a `redirect_uri` to receive each `code`. This API uses both `access_token` and `refresh_token`.
+
+Each of your users will get a per-user access token which you'll use to sign requests. The access token both authenticates and authorizes a request to access or run (execute) a given user's actions.
+
+The basic auth flow is:
+
+1. **Send user to our OAuth start URL, ideally in a popup window**
+```bash 
+var url = https://nla.zapier.com/oauth/authorize/?
+    response_type=code&
+    client_id=<YOUR_CLIENT_ID>&
+    redirect_uri=<YOUR_REDIRECT_URI>&
+    scope=nla%3Aexposed_actions%3Aexecute
+var nla = window.open(url, 'nla', 'width=650,height=700');
+```
+
+2. **User approves request for access**
+3. **NLA will redirect user via `GET` to the `redirect_uri` you provided us with a `?code=` in the query string**
+4. Snag the `code` and `POST` it to the NLA token endpoint `https://nla.zapier.com/oauth/token/`
+
+```bash 
+curl --location 'https://nla.zapier.com/oauth/token/' \
+    --header 'Content-Type: application/x-www-form-urlencoded' \
+    --data-urlencode 'code=<CODE>' \
+    --data-urlencode 'grant_type=authorization_code' \
+    --data-urlencode 'client_id=<YOUR_CLIENT_ID>' \
+    --data-urlencode 'client_secret=<YOUR_CLIENT_SECRET>'
+```
+
+5. **Finally, receive `refresh_token` and `access_token` in response**
+
+Save the refresh token, you'll need to use it to request a new access tokehn when it expires.
+
+Now you can use the `access_token` to make authenticated requests:
+
+```bash
+curl -v -H "Authorization: Bearer <ACCESS_TOKEN>" https://nla.zapier.com/api/v1/dynamic/openapi.json
+```
+
+6. **When the `access_token` expires, refresh it**
+
+```bash 
+curl --location 'https://nla.zapier.com/oauth/token/' \
+    --header 'Content-Type: application/x-www-form-urlencoded' \
+    --data-urlencode 'refresh_token=<REFRESH_TOKEN>' \
+    --data-urlencode 'grant_type=refresh_token' \
+    --data-urlencode 'client_id=<YOUR_CLIENT_ID>' \
+    --data-urlencode 'client_secret=<YOUR_CLIENT_SECRET>'
+```
