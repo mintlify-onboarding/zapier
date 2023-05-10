@@ -17,7 +17,7 @@ For development purposes, or using NLA in a server-side only use case, you can g
 
 Please follow these steps:
 
-1.Go to the [Dev App provider](https://nla.zapier.com/dev/provider/debug/) debug page.
+1. Go to the [Dev App provider](https://nla.zapier.com/dev/provider/debug/) debug page.
 2. Look for "User" -> "Information" -> "API Key". If a key does not exist, follow the instructions to generate one.
 3. Use this key in the header `x-api-key` to make authenticated requests.
 
@@ -31,6 +31,7 @@ curl -v \
 ```
 
 ## For Production (User-facing mode)
+
 The API is authenticated via [standard OAuth v2](https://oauth.net/2/). Submit [this form](https://nla.zapier.app/nla-oauth-credentials) to get access and receive a `client_id`, `client_secret`, and your `provider` name (ex. 'acme'). You'll also need to share with us a `redirect_uri` to receive each `code`. This API uses both `access_token` and `refresh_token`.
 
 Each of your users will get a per-user access token which you'll use to sign requests. The access token both authenticates and authorizes a request to access or run (execute) a given user's actions.
@@ -38,7 +39,8 @@ Each of your users will get a per-user access token which you'll use to sign req
 The basic auth flow is:
 
 1. **Send user to our OAuth start URL, ideally in a popup window**
-```bash 
+
+```bash
 var url = https://nla.zapier.com/oauth/authorize/?
     response_type=code&
     client_id=<YOUR_CLIENT_ID>&
@@ -51,7 +53,7 @@ var nla = window.open(url, 'nla', 'width=650,height=700');
 3. **NLA will redirect user via `GET` to the `redirect_uri` you provided us with a `?code=` in the query string**
 4. Snag the `code` and `POST` it to the NLA token endpoint `https://nla.zapier.com/oauth/token/`
 
-```bash 
+```bash
 curl --location 'https://nla.zapier.com/oauth/token/' \
     --header 'Content-Type: application/x-www-form-urlencoded' \
     --data-urlencode 'code=<CODE>' \
@@ -72,7 +74,7 @@ curl -v -H "Authorization: Bearer <ACCESS_TOKEN>" https://nla.zapier.com/api/v1/
 
 6. **When the `access_token` expires, refresh it**
 
-```bash 
+```bash
 curl --location 'https://nla.zapier.com/oauth/token/' \
     --header 'Content-Type: application/x-www-form-urlencoded' \
     --data-urlencode 'refresh_token=<REFRESH_TOKEN>' \
