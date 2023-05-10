@@ -4,6 +4,9 @@
       "light": "/logo/light.png",
       "dark": "/logo/dark.png"
     },
+    "api": {
+      "baseUrl": "https://nla.zapier.com"
+    },
     "favicon": "/favicon.png",
     "colors": {
       "primary": "#FF4F00",
@@ -21,6 +24,11 @@
       }
     ],
     "anchors": [
+      {
+        "name": "API Reference",
+        "icon": "rectangle-terminal",
+        "url": "api-reference"
+      },
       {
         "name": "Contact Sales",
         "icon": "phone",
@@ -41,6 +49,20 @@
           "action-setup-window",
           "using-the-api"
         ]
+      },
+      {
+        "group": "API Reference",
+        "pages": [
+          "api-reference/check",
+          "api-reference/get-configuration-link",
+          "api-reference/list-exposed-actions",
+          "api-reference/execute-app-action-endpoint",
+          "api-reference/get-execution-log-endpoint"
+        ]
+      },
+      {
+        "group": "Changelog",
+        "pages": ["changelog/changelog"]
       }
     ],
     "footerSocials":
