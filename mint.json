@@ -11,7 +11,7 @@
     "colors": {
       "primary": "#FF4F00",
       "light": "#FE6C2A",
-      "dark": "#D44200"
+      "dark": "#FF4F00"
     },
     "topbarCtaButton": {
       "name": "Sign Up",
