@@ -57,17 +57,18 @@
           "api-reference/get-configuration-link",
           "api-reference/list-exposed-actions",
           "api-reference/execute-app-action-endpoint",
-          "api-reference/get-execution-log-endpoint"
-        ]
-      },
-      {
-        "group": "Schemas",
-        "pages": [
-          "api-reference/schemas/exposed-action-schema",
-          "api-reference/schemas/exposed-action-response-schema",
-          "api-reference/schemas/execute-response",
-          "api-reference/schemas/error-response",
-          "api-reference/schemas/execute-request"
+          "api-reference/get-execution-log-endpoint",
+          {
+            "group": "Schemas",
+            "icon": "cube",
+            "pages": [
+              "api-reference/schemas/exposed-action-schema",
+              "api-reference/schemas/exposed-action-response-schema",
+              "api-reference/schemas/execute-response",
+              "api-reference/schemas/error-response",
+              "api-reference/schemas/execute-request"
+            ]
+          }
         ]
       },
       {
