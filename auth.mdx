@@ -1,5 +1,5 @@
 ---
-title: "Auth"
+title: 'Authentication'
 ---
 
 ## For Quickly Exploring
@@ -40,45 +40,44 @@ The basic auth flow is:
 
 1. **Send user to our OAuth start URL, ideally in a popup window**
 
-```bash
-var url = https://nla.zapier.com/oauth/authorize/?
-    response_type=code&
-    client_id=<YOUR_CLIENT_ID>&
-    redirect_uri=<YOUR_REDIRECT_URI>&
-    scope=nla%3Aexposed_actions%3Aexecute
-var nla = window.open(url, 'nla', 'width=650,height=700');
-```
+   ```javascript
+   var url = https://nla.zapier.com/oauth/authorize/?
+       response_type=code&
+       client_id=<YOUR_CLIENT_ID>&
+       redirect_uri=<YOUR_REDIRECT_URI>&
+       scope=nla%3Aexposed_actions%3Aexecute
+   var nla = window.open(url, 'nla', 'width=650,height=700');
+   ```
 
 2. **User approves request for access**
 3. **NLA will redirect user via `GET` to the `redirect_uri` you provided us with a `?code=` in the query string**
 4. Snag the `code` and `POST` it to the NLA token endpoint `https://nla.zapier.com/oauth/token/`
 
-```bash
-curl --location 'https://nla.zapier.com/oauth/token/' \
-    --header 'Content-Type: application/x-www-form-urlencoded' \
-    --data-urlencode 'code=<CODE>' \
-    --data-urlencode 'grant_type=authorization_code' \
-    --data-urlencode 'client_id=<YOUR_CLIENT_ID>' \
-    --data-urlencode 'client_secret=<YOUR_CLIENT_SECRET>'
-```
+   ```bash
+   curl --location 'https://nla.zapier.com/oauth/token/' \
+       --header 'Content-Type: application/x-www-form-urlencoded' \
+       --data-urlencode 'code=<CODE>' \
+       --data-urlencode 'grant_type=authorization_code' \
+       --data-urlencode 'client_id=<YOUR_CLIENT_ID>' \
+       --data-urlencode 'client_secret=<YOUR_CLIENT_SECRET>'
+   ```
 
 5. **Finally, receive `refresh_token` and `access_token` in response**
 
-Save the refresh token, you'll need to use it to request a new access tokehn when it expires.
+   Save the refresh token, you'll need to use it to request a new access tokehn when it expires.
+   Now you can use the `access_token` to make authenticated requests:
 
-Now you can use the `access_token` to make authenticated requests:
-
-```bash
-curl -v -H "Authorization: Bearer <ACCESS_TOKEN>" https://nla.zapier.com/api/v1/dynamic/openapi.json
-```
+   ```bash
+   curl -v -H "Authorization: Bearer <ACCESS_TOKEN>" https://nla.zapier.com/api/v1/dynamic/openapi.json
+   ```
 
 6. **When the `access_token` expires, refresh it**
 
-```bash
-curl --location 'https://nla.zapier.com/oauth/token/' \
-    --header 'Content-Type: application/x-www-form-urlencoded' \
-    --data-urlencode 'refresh_token=<REFRESH_TOKEN>' \
-    --data-urlencode 'grant_type=refresh_token' \
-    --data-urlencode 'client_id=<YOUR_CLIENT_ID>' \
-    --data-urlencode 'client_secret=<YOUR_CLIENT_SECRET>'
-```
+   ```bash
+   curl --location 'https://nla.zapier.com/oauth/token/' \
+       --header 'Content-Type: application/x-www-form-urlencoded' \
+       --data-urlencode 'refresh_token=<REFRESH_TOKEN>' \
+       --data-urlencode 'grant_type=refresh_token' \
+       --data-urlencode 'client_id=<YOUR_CLIENT_ID>' \
+       --data-urlencode 'client_secret=<YOUR_CLIENT_SECRET>'
+   ```

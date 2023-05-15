@@ -25,19 +25,19 @@
     ],
     "anchors": [
       {
-        "name": "API Reference",
+        "name": "Dynamic API",
         "icon": "rectangle-terminal",
-        "url": "api-reference"
-      },
-      {
-        "name": "Contact Sales",
-        "icon": "phone",
-        "url": "https://zapier.com/l/contact-sales?demo_source=cs_nav_header_/"
+        "url": "/"
       },
       {
         "name": "Changelog",
         "icon": "list",
         "url": "changelog"
+      },
+      {
+        "name": "Contact Sales",
+        "icon": "envelope",
+        "url": "https://zapier.com/l/contact-sales"
       }
     ],
     "navigation": [
@@ -58,6 +58,16 @@
           "api-reference/list-exposed-actions",
           "api-reference/execute-app-action-endpoint",
           "api-reference/get-execution-log-endpoint"
+        ]
+      },
+      {
+        "group": "Schemas",
+        "pages": [
+          "api-reference/schemas/exposed-action-schema",
+          "api-reference/schemas/exposed-action-response-schema",
+          "api-reference/schemas/execute-response",
+          "api-reference/schemas/error-response",
+          "api-reference/schemas/execute-request"
         ]
       },
       {
